@@ -1,0 +1,65 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0c1728" />
+  <meta name="description" content="DeskPilot: an interactive IT service desk ticketing and troubleshooting simulator built as a portfolio project." />
+  <title>DeskPilot | IT Service Desk Simulator</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="app.js" defer></script>
+</head>
+<body>
+<div class="app-shell">
+  <aside class="sidebar" aria-label="Main navigation">
+    <div class="brand"><div class="brand-mark" aria-hidden="true">D<span>.</span></div><div><strong>DeskPilot</strong><small>SUPPORT LAB</small></div></div>
+    <div class="sidebar-kicker">WORKSPACE</div>
+    <nav id="primary-nav" aria-label="Sections">
+      <button type="button" class="nav-link active" data-view="dashboard"><span class="nav-icon">▦</span>Overview</button>
+      <button type="button" class="nav-link" data-view="tickets"><span class="nav-icon">☷</span>Ticket queue <span id="nav-count" class="nav-count">0</span></button>
+      <button type="button" class="nav-link" data-view="knowledge"><span class="nav-icon">▤</span>Knowledge base</button>
+      <button type="button" class="nav-link" data-view="insights"><span class="nav-icon">▥</span>Insights</button>
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="environment"><span class="status-dot"></span><span>Demo environment</span></div>
+      <div class="sidebar-person"><div class="person-avatar">WD</div><div><strong>Will Defontaine</strong><small>IT Support Portfolio</small></div></div>
+      <button type="button" id="reset-demo" class="reset-button">↻ Reset demo data</button>
+    </div>
+  </aside>
+  <div class="main-shell">
+    <header class="topbar">
+      <div class="topbar-left"><span class="breadcrumb">Workspace</span><span class="breadcrumb-divider">/</span><span id="breadcrumb-current">Overview</span></div>
+      <div class="topbar-actions"><span class="demo-badge"><span class="status-dot"></span> SIMULATED DATA</span><button type="button" id="export-csv" class="top-export">↓ <span>Export CSV</span></button><div class="top-avatar">WD</div></div>
+    </header>
+    <main id="main-content">
+      <div class="page-heading">
+        <div><div class="eyebrow">IT SERVICE MANAGEMENT / PORTFOLIO PROJECT</div><h1 id="page-title">Support that moves forward<span class="heading-period">.</span></h1><p id="page-subtitle">Triage, troubleshoot, document, and resolve — all in one simulated service desk.</p></div>
+        <button type="button" class="primary-button" id="create-ticket-top"><span>＋</span> New ticket</button>
+      </div>
+      <section id="dashboard-view" class="app-view">
+        <div class="stats-grid" id="stats-grid" aria-label="Service desk metrics"></div>
+        <div class="dashboard-columns">
+          <section class="panel queue-panel">
+            <div class="panel-header"><div><h2>Active ticket queue</h2><p>Incoming requests and work in progress</p></div><button type="button" class="text-action" data-go="tickets">View all <span>↗</span></button></div>
+            <div id="dashboard-ticket-list" class="ticket-list"></div>
+          </section>
+          <div class="side-stack">
+            <section class="panel workflow-panel"><div class="panel-header"><div><h2>Support workflow</h2><p>A repeatable resolution process</p></div><span class="small-spark">✦</span></div><div class="workflow-list"><div class="workflow-step"><span>01</span><div><strong>Capture & classify</strong><p>Log the issue, urgency, impact, and owner.</p></div></div><div class="workflow-step"><span>02</span><div><strong>Investigate</strong><p>Follow a structured diagnostic runbook.</p></div></div><div class="workflow-step"><span>03</span><div><strong>Resolve & document</strong><p>Record the fix and confirm the outcome.</p></div></div></div></section>
+            <section class="feature-panel"><div class="feature-eyebrow">PORTFOLIO HIGHLIGHT</div><h2>Built for real-world IT support thinking.</h2><p>Explore priority scoring, SLA tracking, ticket histories, guided playbooks, and CSV export.</p><button type="button" data-go="knowledge">Explore runbooks <span>↗</span></button><div class="feature-orb"></div></section>
+          </div>
+        </div>
+        <section class="panel bottom-metrics"><div class="panel-header"><div><h2>Queue at a glance</h2><p>Current distribution by category</p></div><span class="live-pill">● Live demo</span></div><div id="category-bars" class="category-bars"></div></section>
+      </section>
+      <section id="tickets-view" class="app-view hidden">
+        <div class="panel ticket-workspace"><div class="ticket-toolbar"><div><h2>All support tickets</h2><p>Manage simulated incidents from intake to closure.</p></div><label class="search-box"><span>⌕</span><input id="ticket-search" type="search" placeholder="Search tickets, users, categories..." aria-label="Search tickets" /></label></div><div class="filters-row"><div id="ticket-filters" class="filter-tabs" role="group" aria-label="Filter ticket status"><button class="filter-tab active" data-filter="All">All tickets</button><button class="filter-tab" data-filter="Open">Open</button><button class="filter-tab" data-filter="In progress">In progress</button><button class="filter-tab" data-filter="Resolved">Resolved</button></div><select id="priority-filter" aria-label="Filter priority"><option value="All">All priorities</option><option value="P1">P1 · Critical</option><option value="P2">P2 · High</option><option value="P3">P3 · Medium</option><option value="P4">P4 · Low</option></select></div><div class="table-scroll"><table class="tickets-table"><thead><tr><th>Ticket / subject</th><th>Category</th><th>Priority</th><th>Status</th><th>SLA due</th><th></th></tr></thead><tbody id="full-ticket-list"></tbody></table></div><div class="table-footer" id="table-footer"></div></div>
+      </section>
+      <section id="knowledge-view" class="app-view hidden"><div class="section-intro"><h2>Technical playbooks</h2><p>Practical step-by-step troubleshooting guides for common support requests. Select a guide to expand it.</p></div><div id="knowledge-grid" class="knowledge-grid"></div></section>
+      <section id="insights-view" class="app-view hidden"><div class="stats-grid" id="insights-grid"></div><div class="insights-columns"><section class="panel insight-card"><h2>Requests by category</h2><p>Understand which services create the most tickets.</p><div id="insights-category-bars" class="category-bars"></div></section><section class="panel insight-card"><h2>Priority distribution</h2><p>Driven by a transparent impact × urgency matrix.</p><div id="priority-bars" class="category-bars"></div><div class="insight-note">Priority values and SLA windows are configurable demo assumptions, not an employer's internal policy.</div></section></div><section class="panel explanatory-panel"><h2>How prioritization works</h2><p>DeskPilot maps a user's stated impact and urgency into P1–P4, then applies example response windows. This shows the core thought process behind triage, not a production ITSM integration.</p><div class="matrix"><div></div><div>Low urgency</div><div>Medium urgency</div><div>High urgency</div><div>Low impact</div><strong>P4</strong><strong>P3</strong><strong>P2</strong><div>Medium impact</div><strong>P3</strong><strong>P2</strong><strong>P2</strong><div>High impact</div><strong>P2</strong><strong>P1</strong><strong>P1</strong></div></section></section>
+      <footer>DeskPilot · Built by Will Defontaine · An independent portfolio demonstration with fictional users and tickets. No company or patient data.</footer>
+    </main>
+  </div>
+</div>
+<div class="modal-backdrop hidden" id="new-ticket-modal" role="presentation"><div class="modal" role="dialog" aria-modal="true" aria-labelledby="new-ticket-title"><div class="modal-header"><div><div class="eyebrow">NEW SERVICE REQUEST</div><h2 id="new-ticket-title">Create a ticket</h2></div><button type="button" class="close-button" id="close-create" aria-label="Close">×</button></div><form id="new-ticket-form"><div class="form-grid"><label class="field wide">Issue summary<input name="title" maxlength="100" placeholder="e.g. Laptop cannot connect to Wi-Fi" required /></label><label class="field">Requestor<input name="requester" maxlength="60" placeholder="e.g. Jordan Lee" required /></label><label class="field">Category<select name="category" required><option>Network</option><option>Identity & Access</option><option>Hardware</option><option>Software</option><option>Collaboration</option><option>Mobile Devices</option></select></label><label class="field">Impact<select name="impact"><option value="Low">Low · One user</option><option value="Medium" selected>Medium · Team affected</option><option value="High">High · Critical workflow</option></select></label><label class="field">Urgency<select name="urgency"><option value="Low">Low</option><option value="Medium" selected>Medium</option><option value="High">High</option></select></label><label class="field wide">Issue details<textarea name="description" rows="4" maxlength="600" placeholder="Describe the symptoms and any steps already attempted..." required></textarea></label></div><div class="modal-footer"><span>Priority and example SLA are calculated automatically.</span><button class="primary-button" type="submit">Create ticket <span>→</span></button></div></form></div></div>
+<div class="drawer-backdrop hidden" id="ticket-drawer-backdrop"><aside id="ticket-drawer" class="ticket-drawer" role="dialog" aria-modal="true" aria-label="Ticket details"><div class="drawer-header"><div><div class="eyebrow">SERVICE DESK / TICKET DETAIL</div><h2 id="drawer-title">Ticket</h2></div><button type="button" id="close-drawer" class="close-button" aria-label="Close details">×</button></div><div id="drawer-body" class="drawer-body"></div></aside></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body></html>
